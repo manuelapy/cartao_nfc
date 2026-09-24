@@ -1,0 +1,240 @@
+/* Cores no estilo do Vector Design System:
+   fundo quase preto, cinzas neutros, azul só para links e foco.
+   (Tons aproximados — troque pelos do seu colors.css se quiser os exatos.) */
+:root {
+  --fundo: #0a0a0b;
+  --card: #111113;
+  --card-2: #18181b;        /* superfícies elevadas: faixa do topo, botões */
+  --borda: #26262b;
+  --grade: #1f1f23;         /* linhas da grade da faixa */
+  --texto: #ededef;
+  --suave: #a1a1aa;
+  --apagado: #71717a;
+  --azul: #3b82f6;          /* info / link / foco */
+  --azul-claro: #60a5fa;
+
+  --raio: 10px;             /* raio máximo do Vector: nada de cantos muito redondos */
+  --raio-pequeno: 6px;
+  --rapido: 150ms ease-out; /* movimento rápido, sem "quique" */
+
+  --fonte: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --fonte-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+* { box-sizing: border-box; margin: 0; }
+
+html, body { height: 100%; background: var(--card); }
+
+body {
+  color: var(--texto);
+  font: 16px/1.5 var(--fonte);
+  height: 100vh;
+  height: 100dvh;                /* altura exata da tela, sem sobra */
+  overflow: hidden;               /* tela fixa: nada de rolagem */
+  overscroll-behavior: none;
+  touch-action: pan-x pan-y;      /* sem zoom de pinça nem de toque duplo */
+
+  /* Comportamento de app, não de página */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%; /* iPhone não aumenta a letra ao girar */
+  -webkit-font-smoothing: antialiased;
+  -webkit-user-select: none;
+  user-select: none;              /* segurar o dedo não seleciona texto */
+  -webkit-touch-callout: none;    /* segurar a foto não abre o menu "Salvar imagem" */
+}
+img { -webkit-user-drag: none; pointer-events: none; }
+
+.card {
+  --pad: 18px;
+  width: 100%;
+  max-width: 460px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 var(--pad) 22px;
+  padding-bottom: max(22px, env(safe-area-inset-bottom));
+  background: var(--card);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Telas maiores (tablet/desktop): volta a ser um cartão flutuante e centralizado */
+@media (min-width: 601px) {
+  html, body { background: var(--fundo); }
+  body {
+    padding: 16px 12px;
+    display: grid;
+    place-items: center;
+    overflow: auto;
+  }
+  .card {
+    height: auto;
+    border: 1px solid var(--borda);
+    border-radius: var(--raio);
+  }
+}
+
+/* Faixa do topo: cinza com grade técnica (em vez de degradê colorido) */
+.capa {
+  height: calc(90px + env(safe-area-inset-top));   /* cresce atrás da barra de status quando vira app */
+  margin: 0 calc(-1 * var(--pad));
+  background-color: var(--card-2);
+  background-image:
+    linear-gradient(var(--grade) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grade) 1px, transparent 1px);
+  background-size: 16px 16px;       /* tamanho de cada quadradinho */
+  border-bottom: 1px solid var(--borda);
+}
+
+/* Foto à esquerda, textos à direita */
+header {
+  display: flex;
+  gap: 16px;
+  align-items: stretch;
+}
+.info { flex: 1; min-width: 0; }
+
+/* Nome sobe para dentro da faixa */
+h1 {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;      /* títulos com letras mais juntas */
+  margin-top: -29px;            /* negativo = puxa para cima, para dentro da faixa */
+  margin-bottom: 10px;          /* espaço até o cargo, que fica abaixo da faixa */
+  color: var(--texto);
+  white-space: nowrap;          /* nome numa linha só, para caber na faixa */
+}
+
+/* Cargo em fonte mono: tem cara de "dado" */
+.cargo {
+  font-family: var(--fonte-mono);
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--suave);
+}
+.empresa { font-size: 13px; font-weight: 600; color: var(--texto); margin-top: 4px; }
+
+.avatar {
+  flex: 0 0 40%;
+  max-width: 170px;
+  aspect-ratio: 4 / 5;          /* retrato: não estica nem corta o rosto */
+  align-self: flex-start;
+  margin-top: -54px;
+  border-radius: var(--raio);
+  border: 3px solid var(--card);
+  outline: 1px solid var(--borda);  /* contorno fino por fora */
+  background: var(--card-2);
+  color: var(--suave);
+  display: grid;
+  place-items: center;
+  font-size: 42px;
+  font-weight: 700;
+  overflow: hidden;
+}
+.avatar img { width: 100%; height: 100%; object-fit: cover; object-position: 40% 30%; }
+
+.bio {
+  margin-top: 10px;
+  color: var(--suave);          /* texto corrido em cinza, não branco puro */
+  font-size: 10.5px;
+  line-height: 1.55;
+}
+
+/* Celular bem estreito: foto em cima, texto embaixo */
+@media (max-width: 330px) {
+  header { flex-direction: column; }
+  .avatar { flex: none; width: 60%; max-width: none; aspect-ratio: 1; align-self: center; }
+  .info { text-align: center; }
+  h1 { margin: 0 0 4px; }       /* aqui a foto fica no meio: nome volta ao normal */
+}
+
+/* Botões de contato: 2 por linha, só o ícone no meio */
+.redes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: auto;             /* empurra os botões para o fim da tela, sem vão sobrando */
+  padding-top: 18px;
+  border-top: 1px solid var(--borda);
+}
+.rede {
+  min-width: 0;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  font: inherit;
+  color: var(--suave);
+  text-decoration: none;
+  background: var(--card-2);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  cursor: pointer;
+  outline: none;
+  transition: border-color var(--rapido), color var(--rapido), background var(--rapido), transform 100ms ease-out;
+}
+.rede i { font-size: 21px; line-height: 1; }
+/* "PIX" escrito, com a mesma altura visual dos ícones */
+.pix-texto { font: 800 16px/1 var(--fonte); letter-spacing: 0.04em; }
+
+/* Tocar/passar o dedo: o botão fica azul (azul = link no Vector) */
+.rede:active { color: var(--azul-claro); border-color: var(--azul); background: #1c1c20; transform: scale(0.96); }
+/* Hover só com mouse: no celular o botão não fica "preso" azul depois do toque */
+@media (hover: hover) {
+  .rede:hover { color: var(--azul-claro); border-color: var(--azul); background: #1c1c20; }
+}
+/* Foco pelo teclado: sempre um anel azul de 2px */
+.rede:focus-visible { box-shadow: 0 0 0 2px var(--azul); }
+
+/* Janela do Pix */
+.pix {
+  width: min(340px, calc(100% - 32px));
+  margin: auto;                 /* centraliza (o reset lá em cima zera a margem) */
+  outline: none;
+  padding: 22px 20px 18px;
+  color: var(--texto);
+  background: var(--card);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  text-align: center;
+}
+.pix::backdrop { background: rgb(0 0 0 / 0.7); }
+.pix h2 { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; }
+.pix-dica { font-size: 12.5px; color: var(--apagado); margin-top: 6px; }
+.pix-qr {
+  width: 220px;
+  max-width: 100%;
+  margin: 14px auto 12px;
+  padding: 8px;
+  background: #fff;             /* QR precisa de fundo branco para o banco ler */
+  border-radius: var(--raio-pequeno);
+}
+.pix-qr svg { display: block; width: 100%; height: auto; }
+.pix-chave { font: 12px/1.4 var(--fonte-mono); color: var(--suave); word-break: break-all; -webkit-user-select: text; user-select: text; }
+.pix-copiar {
+  width: 100%;
+  margin-top: 14px;
+  padding: 11px;
+  font: 600 14px var(--fonte);
+  color: #fff;
+  background: var(--azul);
+  border: 0;
+  border-radius: var(--raio);
+  cursor: pointer;
+}
+.pix-copiar:active { background: #2563eb; }
+.fechar {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  color: var(--suave);
+  background: none;
+  border: 0;
+  border-radius: var(--raio-pequeno);
+  cursor: pointer;
+}
+@media (hover: hover) { .fechar:hover { color: var(--texto); background: var(--card-2); } }

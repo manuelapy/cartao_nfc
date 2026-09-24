@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <!-- Sem zoom e ocupando a tela toda, inclusive atrás do notch -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#18181b">
+
+  <!-- Adicionar à Tela de Início: abre como app, sem as barras do navegador -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Manuela Py">
+  <link rel="apple-touch-icon" href="icone-180.png">
+  <link rel="icon" href="icone-192.png">
+  <link rel="manifest" href="manifest.json">
+  <meta name="format-detection" content="telephone=no">
+
+  <title>Manuela Py</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="card">
+    <div class="capa"></div>
+
+    <header>
+      <div class="avatar" id="avatar"></div>
+      <div class="info">
+        <h1 id="nome"></h1>
+        <p id="cargo" class="cargo"></p>
+        <p id="empresa" class="empresa"></p>
+        <p id="bio" class="bio"></p>
+      </div>
+    </header>
+
+    <nav class="redes" id="redes" aria-label="Contato"></nav>
+  </main>
+
+  <dialog id="pix" class="pix" aria-labelledby="pix-titulo">
+    <button type="button" class="fechar" id="fechar-pix" aria-label="Fechar"><i class="bi bi-x-lg"></i></button>
+    <h2 id="pix-titulo">Pix</h2>
+    <p class="pix-dica">Aponte a câmera do app do banco para o QR code</p>
+    <div class="pix-qr" id="pix-qr"></div>
+    <p class="pix-chave">Chave: <span id="pix-chave"></span></p>
+    <button type="button" class="pix-copiar" id="copiar-pix">Copiar código Pix</button>
+    <p class="pix-dica">No mesmo celular? Copie e use o Pix Copia e Cola.</p>
+  </dialog>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+  <script src="dados.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
