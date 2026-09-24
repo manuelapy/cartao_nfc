@@ -1,7 +1,7 @@
 // Edite seus dados aqui. Deixe "" para esconder um ícone.
 const DADOS = {
   nome: "Manuela Py",
-  cargo: "Geoprocessamento · Automação · IA",
+  cargo: "analista de sistemas jr.",
   empresa: "Ecoplan Engenharia",
   foto: "foto.JPG",                
   bio: "Geógrafa, analista de geoprocessamento e de sistemas. Desenvolvo ferramentas para QGIS, automações e soluções com IA.",
@@ -9,7 +9,7 @@ const DADOS = {
   whatsapp: "https://wa.me/qr/3PHYXLIDCOEHD1?s=r",       // link do QR do WhatsApp (https://wa.me/qr/...) ou só números: 55 + DDD + número
   email: "geomanupy@gmail.com",
   linkedin: "https://www.linkedin.com/in/manuelapy",
-  instagram: "https://instagram.com/mnauela.py",
+  instagram: "https://instagram.com/manuela.py",
   github: "https://github.com/manuelapy",
 
   // Pix: chave como está cadastrada no banco (e-mail, CPF só números,
