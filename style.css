@@ -149,18 +149,20 @@ h1 {
   h1 { margin: 0 0 4px; }       /* aqui a foto fica no meio: nome volta ao normal */
 }
 
-/* Botões de contato: 2 por linha, só o ícone no meio */
+/* Botões de contato: 2 por linha, ocupando todo o espaço que sobra na tela */
 .redes {
+  flex: 1;                      /* estica até o fim da tela */
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-top: auto;             /* empurra os botões para o fim da tela, sem vão sobrando */
-  padding-top: 18px;
+  grid-template-rows: repeat(3, minmax(56px, 1fr));   /* 3 linhas do mesmo tamanho */
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 20px;
   border-top: 1px solid var(--borda);
 }
 .rede {
   min-width: 0;
-  height: 48px;
+  container-type: size;         /* o ícone mede o próprio botão para crescer junto */
   display: grid;
   place-items: center;
   font: inherit;
@@ -173,9 +175,10 @@ h1 {
   outline: none;
   transition: border-color var(--rapido), color var(--rapido), background var(--rapido), transform 100ms ease-out;
 }
-.rede i { font-size: 21px; line-height: 1; }
+/* Ícone proporcional ao botão (cqmin = o lado menor do botão) */
+.rede i { font-size: 26px; font-size: clamp(22px, 42cqmin, 56px); line-height: 1; }
 /* "PIX" escrito, com a mesma altura visual dos ícones */
-.pix-texto { font: 800 16px/1 var(--fonte); letter-spacing: 0.04em; }
+.pix-texto { font: 800 20px/1 var(--fonte); font-size: clamp(17px, 32cqmin, 42px); letter-spacing: 0.04em; }
 
 /* Tocar/passar o dedo: o botão fica azul (azul = link no Vector) */
 .rede:active { color: var(--azul-claro); border-color: var(--azul); background: #1c1c20; transform: scale(0.96); }
