@@ -72,55 +72,42 @@ img { -webkit-user-drag: none; pointer-events: none; }
     border: 1px solid var(--borda);
     border-radius: var(--raio);
   }
+  .redes { flex: none; height: 200px; }
 }
 
-/* Faixa do topo: cinza com grade técnica (em vez de degradê colorido) */
-.capa {
-  height: calc(90px + env(safe-area-inset-top));   /* cresce atrás da barra de status quando vira app */
+/* Parte de cima: foto e textos empilhados, centralizados no espaço acima dos botões */
+header {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: max(24px, env(safe-area-inset-top)) 4px 20px;
   margin: 0 calc(-1 * var(--pad));
-  background-color: var(--card-2);
+  position: relative;
+}
+/* Grade técnica de fundo, sumindo em direção aos botões (camada só de fundo) */
+header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
   background-image:
     linear-gradient(var(--grade) 1px, transparent 1px),
     linear-gradient(90deg, var(--grade) 1px, transparent 1px);
-  background-size: 16px 16px;       /* tamanho de cada quadradinho */
-  border-bottom: 1px solid var(--borda);
+  background-size: 16px 16px;
+  -webkit-mask-image: linear-gradient(#000 30%, transparent 90%);
+  mask-image: linear-gradient(#000 30%, transparent 90%);
 }
-
-/* Foto à esquerda, textos à direita */
-header {
-  display: flex;
-  gap: 16px;
-  align-items: stretch;
-}
-.info { flex: 1; min-width: 0; }
-
-/* Nome sobe para dentro da faixa */
-h1 {
-  font-size: 22px;
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: -0.02em;      /* títulos com letras mais juntas */
-  margin-top: -29px;            /* negativo = puxa para cima, para dentro da faixa */
-  margin-bottom: 10px;          /* espaço até o cargo, que fica abaixo da faixa */
-  color: var(--texto);
-  white-space: nowrap;          /* nome numa linha só, para caber na faixa */
-}
-
-/* Cargo em fonte mono: tem cara de "dado" */
-.cargo {
-  font-family: var(--fonte-mono);
-  font-size: 11.5px;
-  line-height: 1.5;
-  color: var(--suave);
-}
-.empresa { font-size: 13px; font-weight: 600; color: var(--texto); margin-top: 4px; }
+header > * { position: relative; }   /* foto e textos por cima da grade */
+.info { max-width: 330px; padding: 0 var(--pad); }
 
 .avatar {
-  flex: 0 0 40%;
-  max-width: 170px;
+  height: clamp(120px, 26dvh, 210px);
   aspect-ratio: 4 / 5;          /* retrato: não estica nem corta o rosto */
-  align-self: flex-start;
-  margin-top: -54px;
+  flex-shrink: 0;
+  margin-bottom: 18px;
   border-radius: var(--raio);
   border: 3px solid var(--card);
   outline: 1px solid var(--borda);  /* contorno fino por fora */
@@ -134,35 +121,44 @@ h1 {
 }
 .avatar img { width: 100%; height: 100%; object-fit: cover; object-position: 40% 30%; }
 
+h1 {
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;      /* títulos com letras mais juntas */
+  margin-bottom: 8px;
+  color: var(--texto);
+}
+
+/* Cargo em fonte mono: tem cara de "dado" */
+.cargo {
+  font-family: var(--fonte-mono);
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--suave);
+}
+.empresa { font-size: 13.5px; font-weight: 600; color: var(--texto); margin-top: 4px; }
+
 .bio {
-  margin-top: 10px;
+  margin-top: 12px;
   color: var(--suave);          /* texto corrido em cinza, não branco puro */
-  font-size: 10.5px;
+  font-size: 13px;
   line-height: 1.55;
 }
 
-/* Celular bem estreito: foto em cima, texto embaixo */
-@media (max-width: 330px) {
-  header { flex-direction: column; }
-  .avatar { flex: none; width: 60%; max-width: none; aspect-ratio: 1; align-self: center; }
-  .info { text-align: center; }
-  h1 { margin: 0 0 4px; }       /* aqui a foto fica no meio: nome volta ao normal */
-}
-
-/* Botões de contato: 2 por linha, ocupando todo o espaço que sobra na tela */
+/* Botões de contato: 2 por linha, no terço de baixo da tela */
 .redes {
-  flex: 1;                      /* estica até o fim da tela */
+  flex: 0 0 33%;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: repeat(3, minmax(56px, 1fr));   /* 3 linhas do mesmo tamanho */
-  gap: 10px;
-  margin-top: 20px;
-  padding-top: 20px;
+  grid-template-rows: repeat(3, 1fr);   /* 3 linhas do mesmo tamanho */
+  gap: 8px;
+  padding-top: 16px;
   border-top: 1px solid var(--borda);
 }
 .rede {
   min-width: 0;
-  container-type: size;         /* o ícone mede o próprio botão para crescer junto */
+  min-height: 44px;             /* tamanho mínimo confortável para o dedo */
   display: grid;
   place-items: center;
   font: inherit;
@@ -175,10 +171,9 @@ h1 {
   outline: none;
   transition: border-color var(--rapido), color var(--rapido), background var(--rapido), transform 100ms ease-out;
 }
-/* Ícone proporcional ao botão (cqmin = o lado menor do botão) */
-.rede i { font-size: 26px; font-size: clamp(22px, 42cqmin, 56px); line-height: 1; }
+.rede i { font-size: 22px; line-height: 1; }
 /* "PIX" escrito, com a mesma altura visual dos ícones */
-.pix-texto { font: 800 20px/1 var(--fonte); font-size: clamp(17px, 32cqmin, 42px); letter-spacing: 0.04em; }
+.pix-texto { font: 800 16px/1 var(--fonte); letter-spacing: 0.04em; }
 
 /* Tocar/passar o dedo: o botão fica azul (azul = link no Vector) */
 .rede:active { color: var(--azul-claro); border-color: var(--azul); background: #1c1c20; transform: scale(0.96); }
